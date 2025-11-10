@@ -59,7 +59,7 @@ const Settings = () => {
 			        size="icon-lg"
 			        className="cursor-pointer"><MaterialSymbolsSettings className="w-6 h-6 fill-neutral-100"/></Button>
 		</SheetTrigger>
-		<SheetContent className="w-[600px] sm:max-w-[600px]">
+		<SheetContent className="w-[600px] sm:max-w-[600px] overflow-y-auto">
 			<SheetHeader>
 				<SheetTitle>Konfiguracja</SheetTitle>
 				<SheetDescription>Ustawienia serwera i raportów</SheetDescription>
