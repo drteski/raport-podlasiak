@@ -4,7 +4,7 @@ import { render } from '@react-email/components';
 import { EmailMessage } from '@/components/EmailMessage';
 import { Report } from '@/types/types';
 
-export const sendEmail = async (data: Report[]): Promise<string> => {
+export const sendEmail = async (data: Report): Promise<string> => {
 	const settings = await prisma.mailing.findFirst();
 	if (!settings) {
 		throw new Error('Mailing settings not found in database');
@@ -30,7 +30,7 @@ export const sendEmail = async (data: Report[]): Promise<string> => {
 		}
 	});
 
-	const emailHtml = await render(<EmailMessage data={data}/>);
+	const emailHtml = await render(<EmailMessage display={false} data={data}/>);
 
 	const message = await transporter.sendMail({
 		from,

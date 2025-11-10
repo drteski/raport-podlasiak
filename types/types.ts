@@ -24,19 +24,26 @@ export type JsonData = {
 	duties: string;
 }
 
+type At = {
+	person: string;
+	from: string;
+	to: string;
+}
 
 export type Report = {
 	totalWorkers: number,
 	workersAtWork: number,
-	workersAtHoliday: string[],
+	workersAtHoliday: At[],
 	workersAtHolidayCount: number,
-	workersAtL4: string[],
+	workersAtL4: At[],
 	workersAtL4Count: number,
 	workersAtShift: string[],
 	workersAtReturns: string[],
+	additionalInformation: string[],
 	table: JsonData[]
 }
 
 export type EmailMessageProps = {
-	data: Report;
+	display?: boolean;
+	data: Report | null;
 };
