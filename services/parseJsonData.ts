@@ -12,7 +12,8 @@ export const parseJsonData = (data: JsonData[]) => {
 			atL4To,
 			atShift,
 			atReturns,
-			orders,
+			overtime,
+			overtimeDescription,
 			notes,
 			duties
 		} = item;
@@ -26,7 +27,8 @@ export const parseJsonData = (data: JsonData[]) => {
 			atL4To,
 			atShift: atShift === 'TRUE',
 			atReturns: atReturns === 'TRUE',
-			orders,
+			overtime,
+			overtimeDescription,
 			notes,
 			duties
 		};

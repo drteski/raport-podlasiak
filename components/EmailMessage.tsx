@@ -104,17 +104,18 @@ export const EmailMessage: FC<EmailMessageProps> = ({ display, data }) => {
 						<thead>
 						<tr>
 							<th className="border border-black p-1" style={{ width: '12.5%' }}>Osoba</th>
-							<th className="border border-black p-1" style={{ width: '7.5%' }}>Dział</th>
+							<th className="border border-black p-1" style={{ width: '7%' }}>Dział</th>
 							<th className="border border-black p-1" style={{ width: '5%' }}>W pracy?</th>
-							<th className="border border-black p-1" style={{ width: '7.5%' }}>Urlop od</th>
-							<th className="border border-black p-1" style={{ width: '7.5%' }}>Urlop do</th>
-							<th className="border border-black p-1" style={{ width: '7.5%' }}>L4 od</th>
-							<th className="border border-black p-1" style={{ width: '7.5%' }}>L4 do</th>
+							<th className="border border-black p-1" style={{ width: '6%' }}>Urlop od</th>
+							<th className="border border-black p-1" style={{ width: '6%' }}>Urlop do</th>
+							<th className="border border-black p-1" style={{ width: '6%' }}>L4 od</th>
+							<th className="border border-black p-1" style={{ width: '6%' }}>L4 do</th>
 							<th className="border border-black p-1" style={{ width: '5%' }}>Dyżur 11</th>
 							<th className="border border-black p-1" style={{ width: '5%' }}>Zwroty</th>
-							<th className="border border-black p-1" style={{ width: '5%' }}>Zamówienia</th>
-							<th className="border border-black p-1" style={{ width: '12.5%' }}>Uwagi</th>
-							<th className="border border-black p-1" style={{ width: '17.5%' }}>Obowiązki</th>
+							<th className="border border-black p-1" style={{ width: '5%' }}>Nadgodziny</th>
+							<th className="border border-black p-1" style={{ width: '9%' }}>Powód nadgodzin</th>
+							<th className="border border-black p-1" style={{ width: '12.5%' }}>Zrobione dziś</th>
+							<th className="border border-black p-1" style={{ width: '15%' }}>Obowiązki</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -124,17 +125,17 @@ export const EmailMessage: FC<EmailMessageProps> = ({ display, data }) => {
 									<td className="border border-black p-1"
 									    style={{ width: '12.5%' }}>{item.person}</td>
 									<td className="border border-black p-1"
-									    style={{ width: '7.5%', textAlign: 'center' }}>{item.department}</td>
+									    style={{ width: '7%', textAlign: 'center' }}>{item.department}</td>
 									<td className="border border-black p-1"
 									    style={{ width: '5%', textAlign: 'center' }}>{item.atWork ? 'Tak' : 'Nie'}</td>
 									<td className="border border-black p-1"
-									    style={{ width: '7.5%', textAlign: 'center' }}>{item.atHolidayFrom}</td>
+									    style={{ width: '6%', textAlign: 'center' }}>{item.atHolidayFrom}</td>
 									<td className="border border-black p-1"
-									    style={{ width: '7.5%', textAlign: 'center' }}>{item.atHolidayTo}</td>
+									    style={{ width: '6%', textAlign: 'center' }}>{item.atHolidayTo}</td>
 									<td className="border border-black p-1"
-									    style={{ width: '7.5%', textAlign: 'center' }}>{item.atL4From}</td>
+									    style={{ width: '6%', textAlign: 'center' }}>{item.atL4From}</td>
 									<td className="border border-black p-1"
-									    style={{ width: '7.5%', textAlign: 'center' }}>{item.atL4To}</td>
+									    style={{ width: '6%', textAlign: 'center' }}>{item.atL4To}</td>
 									<td className="border border-black p-1"
 									    style={{ width: '5%', textAlign: 'center' }}>{item.atShift ? 'Tak' : 'Nie'}</td>
 									<td className="border border-black p-1" style={{
@@ -142,10 +143,12 @@ export const EmailMessage: FC<EmailMessageProps> = ({ display, data }) => {
 										textAlign: 'center'
 									}}>{item.atReturns ? 'Tak' : 'Nie'}</td>
 									<td className="border border-black p-1"
-									    style={{ width: '5%', textAlign: 'center' }}>{item.orders}</td>
+									    style={{ width: '5%', textAlign: 'center' }}>{item.overtime}</td>
+									<td className="border border-black p-1"
+									    style={{ width: '9%', textAlign: 'center' }}>{item.overtimeDescription}</td>
 									<td className="border border-black p-1" style={{ width: '12.5%' }}>{item.notes}</td>
 									<td className="border border-black p-1"
-									    style={{ width: '17.5%' }}>{item.duties}</td>
+									    style={{ width: '15%' }}>{item.duties}</td>
 								</tr>
 							);
 						})}
@@ -248,17 +251,18 @@ export const EmailMessage: FC<EmailMessageProps> = ({ display, data }) => {
 					<thead>
 					<tr>
 						<th style={{ width: '12.5%' }}>Osoba</th>
-						<th style={{ width: '7.5%' }}>Dział</th>
+						<th style={{ width: '7%' }}>Dział</th>
 						<th style={{ width: '5%' }}>W pracy?</th>
-						<th style={{ width: '7.5%' }}>Urlop od</th>
-						<th style={{ width: '7.5%' }}>Urlop do</th>
-						<th style={{ width: '7.5%' }}>L4 od</th>
-						<th style={{ width: '7.5%' }}>L4 do</th>
+						<th style={{ width: '6%' }}>Urlop od</th>
+						<th style={{ width: '6%' }}>Urlop do</th>
+						<th style={{ width: '6%' }}>L4 od</th>
+						<th style={{ width: '6%' }}>L4 do</th>
 						<th style={{ width: '5%' }}>Dyżur 11</th>
 						<th style={{ width: '5%' }}>Zwroty</th>
-						<th style={{ width: '5%' }}>Zamówienia</th>
-						<th style={{ width: '12.5%' }}>Uwagi</th>
-						<th style={{ width: '17.5%' }}>Obowiązki</th>
+						<th style={{ width: '5%' }}>Nadgodziny</th>
+						<th style={{ width: '9%' }}>Powód nadgodzin</th>
+						<th style={{ width: '12.5%' }}>Zrobione dziś</th>
+						<th style={{ width: '15%' }}>Obowiązki</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -266,17 +270,18 @@ export const EmailMessage: FC<EmailMessageProps> = ({ display, data }) => {
 						return (
 							<tr key={item.person}>
 								<td style={{ width: '12.5%' }}>{item.person}</td>
-								<td style={{ width: '7.5%', textAlign: 'center' }}>{item.department}</td>
+								<td style={{ width: '7%', textAlign: 'center' }}>{item.department}</td>
 								<td style={{ width: '5%', textAlign: 'center' }}>{item.atWork ? 'Tak' : 'Nie'}</td>
-								<td style={{ width: '7.5%', textAlign: 'center' }}>{item.atHolidayFrom}</td>
-								<td style={{ width: '7.5%', textAlign: 'center' }}>{item.atHolidayTo}</td>
-								<td style={{ width: '7.5%', textAlign: 'center' }}>{item.atL4From}</td>
-								<td style={{ width: '7.5%', textAlign: 'center' }}>{item.atL4To}</td>
+								<td style={{ width: '6%', textAlign: 'center' }}>{item.atHolidayFrom}</td>
+								<td style={{ width: '6%', textAlign: 'center' }}>{item.atHolidayTo}</td>
+								<td style={{ width: '6%', textAlign: 'center' }}>{item.atL4From}</td>
+								<td style={{ width: '6%', textAlign: 'center' }}>{item.atL4To}</td>
 								<td style={{ width: '5%', textAlign: 'center' }}>{item.atShift ? 'Tak' : 'Nie'}</td>
 								<td style={{ width: '5%', textAlign: 'center' }}>{item.atReturns ? 'Tak' : 'Nie'}</td>
-								<td style={{ width: '5%', textAlign: 'center' }}>{item.orders}</td>
+								<td style={{ width: '5%', textAlign: 'center' }}>{item.overtime}</td>
+								<td style={{ width: '9%', textAlign: 'center' }}>{item.overtimeDescription}</td>
 								<td style={{ width: '12.5%' }}>{item.notes}</td>
-								<td style={{ width: '17.5%' }}>{item.duties}</td>
+								<td style={{ width: '17%' }}>{item.duties}</td>
 							</tr>
 						);
 					})}

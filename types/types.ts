@@ -19,7 +19,8 @@ export type JsonData = {
 	atL4To: string;
 	atShift: string | boolean;
 	atReturns: string | boolean;
-	orders: string;
+	overtime: string;
+	overtimeDescription: string;
 	notes: string;
 	duties: string;
 }
