@@ -4,9 +4,17 @@ import { Html } from '@react-email/html';
 import { Heading, Text, Section, Hr } from '@react-email/components';
 import { EmailMessageProps } from '@/types/types';
 import { FC, Fragment } from 'react';
+import { colorize } from '@/lib/utils';
 
 export const EmailMessage: FC<EmailMessageProps> = ({ display, data }) => {
 	if (!data) return null;
+
+	const departments = Array.from(
+		new Set(data.table.map(row => row.department))
+	);
+
+	const colors = colorize(departments);
+
 	if (display)
 		return (
 			<div className="w-full flex flex-col gap-4">
@@ -121,7 +129,7 @@ export const EmailMessage: FC<EmailMessageProps> = ({ display, data }) => {
 						<tbody>
 						{data.table.map((item) => {
 							return (
-								<tr key={item.person}>
+								<tr key={item.person} style={{ backgroundColor: colors[item.department] }}>
 									<td className="border border-black p-1"
 									    style={{ width: '12.5%' }}>{item.person}</td>
 									<td className="border border-black p-1"
@@ -268,7 +276,7 @@ export const EmailMessage: FC<EmailMessageProps> = ({ display, data }) => {
 					<tbody>
 					{data.table.map((item) => {
 						return (
-							<tr key={item.person}>
+							<tr key={item.person} style={{ backgroundColor: colors[item.department] }}>
 								<td style={{ width: '12.5%' }}>{item.person}</td>
 								<td style={{ width: '7%', textAlign: 'center' }}>{item.department}</td>
 								<td style={{ width: '5%', textAlign: 'center' }}>{item.atWork ? 'Tak' : 'Nie'}</td>
