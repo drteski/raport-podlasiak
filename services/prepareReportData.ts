@@ -1,4 +1,4 @@
-import { JsonData } from '@/types/types';
+import { DepartmentGroup, JsonData } from '@/types/types';
 
 export const prepareReportData = (data: JsonData[], additionalInformation: string) => {
 	const totalWorkers = data.length;
@@ -16,6 +16,18 @@ export const prepareReportData = (data: JsonData[], additionalInformation: strin
 	const workersAtShift = data.filter((item) => item.atShift).map((item) => item.person);
 	const workersAtReturns = data.filter((item) => item.atReturns).map((item) => item.person);
 
+	const table = data.reduce<DepartmentGroup[]>((previousValue, currentValue) => {
+		const existingIndex = previousValue.findIndex(prev => prev.department === currentValue.department);
+
+		if (existingIndex === -1) return [...previousValue, {
+			department: currentValue.department,
+			workers: [currentValue]
+		}];
+		previousValue[existingIndex].workers = [...previousValue[existingIndex].workers, currentValue];
+		return previousValue;
+	}, []);
+
+
 	return {
 		totalWorkers,
 		workersAtWork,
@@ -26,6 +38,6 @@ export const prepareReportData = (data: JsonData[], additionalInformation: strin
 		workersAtShift,
 		workersAtReturns,
 		additionalInformation,
-		table: data
+		table
 	};
 };

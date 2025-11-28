@@ -24,6 +24,11 @@ export type JsonData = {
 	notes: string;
 	duties: string;
 }
+export type DepartmentGroup = {
+	department: string;
+	workers: JsonData[];
+};
+
 
 type At = {
 	person: string;
@@ -41,7 +46,7 @@ export type Report = {
 	workersAtShift: string[],
 	workersAtReturns: string[],
 	additionalInformation: string[],
-	table: JsonData[]
+	table: DepartmentGroup[]
 }
 
 export type EmailMessageProps = {
