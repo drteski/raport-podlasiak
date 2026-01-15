@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format, subDays } from 'date-fns';
 import { pl } from 'date-fns/locale/pl';
 import { Html } from '@react-email/html';
 import { Heading, Text, Section, Hr } from '@react-email/components';
@@ -13,7 +13,7 @@ export const EmailMessage: FC<EmailMessageProps> = ({ display, data }) => {
 
 		<div className="w-full flex flex-col gap-4">
 			<h1 className="font-bold text-2xl">Raport</h1>
-			<p>{format(new Date(), 'EEEE dd.MM.yyyy', { locale: pl })}</p>
+			<p>{format(subDays(new Date(), 1), 'EEEE dd.MM.yyyy', { locale: pl })}</p>
 			<hr/>
 			<div className="flex flex-col gap-4">
 				<ul style={{ listStyle: 'none', marginLeft: 0, paddingLeft: 0 }}>
@@ -137,7 +137,7 @@ export const EmailMessage: FC<EmailMessageProps> = ({ display, data }) => {
 	return (
 		<Html lang="pl" dir="ltr">
 			<Heading as="h1">Raport</Heading>
-			<Text>{format(new Date(), 'EEEE dd.MM.yyyy', { locale: pl })}</Text>
+			<Text>{format(subDays(new Date(), 1), 'EEEE dd.MM.yyyy', { locale: pl })}</Text>
 			<Hr/>
 			<Section>
 				<ul style={{ listStyle: 'none', marginLeft: 0, paddingLeft: 0 }}>
