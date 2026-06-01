@@ -22,8 +22,8 @@ export type JsonData = {
 	overtime: string;
 	overtimeDescription: string;
 	notes: string;
-	duties: string;
 }
+
 export type DepartmentGroup = {
 	department: string;
 	workers: JsonData[];
@@ -46,6 +46,7 @@ export type Report = {
 	workersAtShift: string[],
 	workersAtReturns: string[],
 	additionalInformation: string[],
+	reportDate: string,
 	table: DepartmentGroup[]
 }
 

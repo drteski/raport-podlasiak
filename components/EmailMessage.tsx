@@ -1,4 +1,4 @@
-import { format, subDays } from 'date-fns';
+import { format } from 'date-fns';
 import { pl } from 'date-fns/locale/pl';
 import { Html } from '@react-email/html';
 import { Heading, Text, Section, Hr } from '@react-email/components';
@@ -8,12 +8,13 @@ import { FC, Fragment } from 'react';
 export const EmailMessage: FC<EmailMessageProps> = ({ display, data }) => {
 	if (!data) return null;
 
+	const reportDate = new Date(data.reportDate);
 
 	if (display) return (
 
 		<div className="w-full flex flex-col gap-4">
 			<h1 className="font-bold text-2xl">Raport</h1>
-			<p>{format(subDays(new Date(), 1), 'EEEE dd.MM.yyyy', { locale: pl })}</p>
+			<p>{format(reportDate, 'EEEE dd.MM.yyyy', { locale: pl })}</p>
 			<hr/>
 			<div className="flex flex-col gap-4">
 				<ul style={{ listStyle: 'none', marginLeft: 0, paddingLeft: 0 }}>
@@ -110,8 +111,8 @@ export const EmailMessage: FC<EmailMessageProps> = ({ display, data }) => {
 							    style={{ width: '60%' }}
 							    colSpan={3}>{item.department}
 							</th>
-							<th className="border border-black p-1 font-normal" style={{ width: '20%' }}>Nadgodziny</th>
-							<th className="border border-black p-1 font-normal" style={{ width: '20%' }}>Powód</th>
+							<th className="border border-black p-1 font-bold" style={{ width: '20%' }}>Suma nadgodzin z całego tygodnia</th>
+							<th className="border border-black p-1 font-bold" style={{ width: '20%' }}>Kiedy? Dlaczego? Ile? Co dokładnie było robione</th>
 						</tr>
 						{item.workers.map((worker, index) => (<tr key={index}>
 							<td className="border border-black p-1 text-center" style={{ width: '5%' }}>{index + 1}</td>
@@ -137,7 +138,7 @@ export const EmailMessage: FC<EmailMessageProps> = ({ display, data }) => {
 	return (
 		<Html lang="pl" dir="ltr">
 			<Heading as="h1">Raport</Heading>
-			<Text>{format(subDays(new Date(), 1), 'EEEE dd.MM.yyyy', { locale: pl })}</Text>
+			<Text>{format(reportDate, 'EEEE dd.MM.yyyy', { locale: pl })}</Text>
 			<Hr/>
 			<Section>
 				<ul style={{ listStyle: 'none', marginLeft: 0, paddingLeft: 0 }}>
@@ -232,8 +233,8 @@ export const EmailMessage: FC<EmailMessageProps> = ({ display, data }) => {
 							    style={{ width: '60%', fontSize: 24, backgroundColor: '#FBF3D0' }}
 							    colSpan={3}>{item.department}
 							</th>
-							<th className="border border-black p-1 font-normal" style={{ width: '20%' }}>Nadgodziny</th>
-							<th className="border border-black p-1 font-normal" style={{ width: '20%' }}>Powód</th>
+							<th className="border border-black p-1 font-bold" style={{ width: '20%', fontWeight: 700 }}>Suma nadgodzin z całego tygodnia</th>
+							<th className="border border-black p-1 font-bold" style={{ width: '20%', fontWeight: 700 }}>Kiedy? Dlaczego? Ile? Co dokładnie było robione</th>
 						</tr>
 						{item.workers.map((worker, index) => (<tr key={index}>
 							<td className="border border-black p-1 text-center"

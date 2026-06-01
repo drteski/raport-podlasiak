@@ -14,8 +14,7 @@ export const parseJsonData = (data: JsonData[]) => {
 			atReturns,
 			overtime,
 			overtimeDescription,
-			notes,
-			duties
+			notes
 		} = item;
 		return {
 			person,
@@ -29,8 +28,7 @@ export const parseJsonData = (data: JsonData[]) => {
 			atReturns: atReturns === 'TRUE',
 			overtime,
 			overtimeDescription,
-			notes,
-			duties
+			notes
 		};
 	});
 };
