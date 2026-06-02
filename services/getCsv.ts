@@ -1,10 +1,52 @@
 import csvtojson from 'csvtojson';
 import axios from 'axios';
 
-const normalizeEnvUrl = (value: string | undefined) => {
-	const trimmed = (value ?? '').trim();
+const quoteChars = /^["'`]|["'`]$/g;
+const unicodeQuotes = /[\u201C\u201D\u201E\u201F\u2033\u2036\u2018\u2019\u2032]/g;
 
-	return trimmed.replace(/^["']|["']$/g, '');
+const normalizeEnvUrl = (value: string | undefined) => {
+	let url = (value ?? '')
+		.trim()
+		.replace(unicodeQuotes, '"')
+		.replace(/\r/g, '');
+
+	while (
+		(url.startsWith('"') && url.endsWith('"'))
+		|| (url.startsWith("'") && url.endsWith("'"))
+		|| (url.startsWith('`') && url.endsWith('`'))
+	) {
+		url = url.slice(1, -1).trim();
+	}
+
+	url = url.replace(quoteChars, '').trim();
+
+	if (url.startsWith('%22') && url.endsWith('%22')) {
+		try {
+			url = decodeURIComponent(url.slice(3, -3));
+		} catch {
+			// keep original value if decoding fails
+		}
+	}
+
+	return url.trim();
+};
+
+const assertValidSheetUrl = (envName: string, rawValue: string | undefined) => {
+	const url = normalizeEnvUrl(rawValue);
+
+	if (!url) {
+		throw new Error(`Brak ${envName} w env`);
+	}
+
+	try {
+		new URL(url);
+	} catch {
+		throw new Error(
+			`Niepoprawny URL w ${envName}. W Vercel wklej sam link, bez cudzysłowów i bez nazwy zmiennej.`
+		);
+	}
+
+	return url;
 };
 
 const normalizeKey = (value: string) => value.trim().toLowerCase().replace(/\s+/g, ' ');
@@ -41,11 +83,7 @@ const rowsToObjects = (rows: string[][], headerRowIndex: number): Record<string,
 };
 
 export const getMainSheetCsv = async () => {
-	const csvUrl = normalizeEnvUrl(process.env.GOOGLE_SHEETS_CSV);
-
-	if (!csvUrl) {
-		throw new Error('Brak GOOGLE_SHEETS_CSV w env');
-	}
+	const csvUrl = assertValidSheetUrl('GOOGLE_SHEETS_CSV', process.env.GOOGLE_SHEETS_CSV);
 
 	try {
 		const response = await axios.get(csvUrl, { responseType: 'text' });
@@ -54,16 +92,14 @@ export const getMainSheetCsv = async () => {
 		return jsonArray.filter((item) => item.person !== 'Osoba').filter((item) => item.person !== '');
 	} catch (err) {
 		console.error('Błąd pobierania CSV (GOOGLE_SHEETS_CSV):', err);
-		throw err;
+		throw err instanceof Error && err.message === 'Invalid URL'
+			? new Error('Niepoprawny URL w GOOGLE_SHEETS_CSV. W Vercel wklej sam link, bez cudzysłowów.')
+			: err;
 	}
 };
 
 export const getInputSheetCsv = async (): Promise<Record<string, string>[]> => {
-	const csvUrl = normalizeEnvUrl(process.env.GOOGLE_SHEETS_INPUT_CSV);
-
-	if (!csvUrl) {
-		throw new Error('Brak GOOGLE_SHEETS_INPUT_CSV w env');
-	}
+	const csvUrl = assertValidSheetUrl('GOOGLE_SHEETS_INPUT_CSV', process.env.GOOGLE_SHEETS_INPUT_CSV);
 
 	try {
 		const rows = await parseSheetRows(csvUrl);
@@ -76,6 +112,8 @@ export const getInputSheetCsv = async (): Promise<Record<string, string>[]> => {
 		return rowsToObjects(rows, headerRowIndex);
 	} catch (err) {
 		console.error('Błąd pobierania CSV (GOOGLE_SHEETS_INPUT_CSV):', err);
-		throw err;
+		throw err instanceof Error && err.message === 'Invalid URL'
+			? new Error('Niepoprawny URL w GOOGLE_SHEETS_INPUT_CSV. W Vercel wklej sam link, bez cudzysłowów.')
+			: err;
 	}
 };
