@@ -26,11 +26,20 @@ export default function Home() {
 	const handleGenerateReport = () => (async () => {
 		setLoading(true);
 		setReportData(null);
-		const data = await axios.post('/api/raport', { additionalInformation }).then(res => {
-			return res.data.reportData;
-		});
-		setReportData(data);
-		setLoading(false);
+		setStatus('');
+		try {
+			const data = await axios.post('/api/raport', { additionalInformation }).then(res => {
+				return res.data.reportData;
+			});
+			setReportData(data);
+		} catch (error) {
+			const message = axios.isAxiosError(error)
+				? error.response?.data?.error ?? error.message
+				: 'Nie udało się wygenerować raportu';
+			setStatus(message);
+		} finally {
+			setLoading(false);
+		}
 	})();
 
 	const handleSendReport = () => {
@@ -65,6 +74,8 @@ export default function Home() {
 					        onClick={() => handleGenerateReport()}
 					        size="lg">{loading ? (
 						<Spinner/>) : reportData ? 'Wygeneruj ponownie' : 'Wygeneruj raport'}</Button>
+					{status !== '' && !reportData &&
+						<div className="text-red-700 text-sm whitespace-pre-wrap">{status}</div>}
 					{reportData &&
 						<Dialog>
 							<DialogTrigger asChild>

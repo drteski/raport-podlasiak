@@ -1,7 +1,11 @@
 import csvtojson from 'csvtojson';
 import axios from 'axios';
 
-const { GOOGLE_SHEETS_CSV, GOOGLE_SHEETS_INPUT_CSV } = process.env;
+const normalizeEnvUrl = (value: string | undefined) => {
+	const trimmed = (value ?? '').trim();
+
+	return trimmed.replace(/^["']|["']$/g, '');
+};
 
 const normalizeKey = (value: string) => value.trim().toLowerCase().replace(/\s+/g, ' ');
 const normalizePerson = (value: string) => value.trim().replace(/\s+/g, ' ');
@@ -37,15 +41,15 @@ const rowsToObjects = (rows: string[][], headerRowIndex: number): Record<string,
 };
 
 export const getMainSheetCsv = async () => {
-	const csvUrl = GOOGLE_SHEETS_CSV ?? '';
+	const csvUrl = normalizeEnvUrl(process.env.GOOGLE_SHEETS_CSV);
 
 	if (!csvUrl) {
 		throw new Error('Brak GOOGLE_SHEETS_CSV w env');
 	}
 
 	try {
-		const response = await axios.get(csvUrl, { responseType: 'stream' });
-		const jsonArray = await csvtojson().fromStream(response.data);
+		const response = await axios.get(csvUrl, { responseType: 'text' });
+		const jsonArray = await csvtojson().fromString(response.data);
 
 		return jsonArray.filter((item) => item.person !== 'Osoba').filter((item) => item.person !== '');
 	} catch (err) {
@@ -55,7 +59,7 @@ export const getMainSheetCsv = async () => {
 };
 
 export const getInputSheetCsv = async (): Promise<Record<string, string>[]> => {
-	const csvUrl = GOOGLE_SHEETS_INPUT_CSV ?? '';
+	const csvUrl = normalizeEnvUrl(process.env.GOOGLE_SHEETS_INPUT_CSV);
 
 	if (!csvUrl) {
 		throw new Error('Brak GOOGLE_SHEETS_INPUT_CSV w env');
